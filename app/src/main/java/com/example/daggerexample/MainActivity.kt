@@ -1,5 +1,6 @@
 package com.example.daggerexample
 
+import android.content.SharedPreferences
 import android.os.Build
 
 import android.os.Bundle
@@ -14,25 +15,29 @@ import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
 class MainActivity : BaseActivity() {
-
+    @Inject
     lateinit var parser: InputParseOperation
 
-
+    @Inject
     lateinit var operation: InputOutputFileOperation
 
-
+     @Inject
     lateinit var writer: MessageWriter
 
-
+    @Inject
     lateinit var outputFileWriter: OutputFileWriter
 
 
+    @Inject
     lateinit var hero: Hero
+
+    @Inject
+    lateinit var  sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setValues()
+
         CheckFilePermision()
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             GameRun()
@@ -43,8 +48,7 @@ class MainActivity : BaseActivity() {
     fun GameRun() {
         val inputStr = operation!!.readInputFromFile()
         hero = parser!!.getHero(inputStr)
-        hero!!.writer = writer
-        hero!!.start(parser!!.getRoute(inputStr))
+        hero!!.start(parser!!.getRoute(inputStr),writer,operation,outputFileWriter,sharedPreferences)
 
     }
 
@@ -66,16 +70,10 @@ class MainActivity : BaseActivity() {
     }
 
 
-    fun setValues(){
-        hero= Hero(context = applicationContext)
-        operation= InputOutputFileOperation(applicationContext)
-        parser= InputParseOperation(applicationContext)
-        writer= MessageWriter(applicationContext)
-        outputFileWriter= OutputFileWriter(applicationContext)
-    }
+
 
     fun onClickGameBtn(v: View) {
-        txt_result_game.text = outputFileWriter!!.getOutputFile()
+        txt_result_game.text = outputFileWriter!!.getOutputFile(sharedPreferences)
         bt_result_show.setVisibility(View.GONE)
 
         if (hero!!.isAlive) {

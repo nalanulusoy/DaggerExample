@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import dagger.android.support.DaggerAppCompatActivity
 
 
-abstract class BaseActivity : Activity(){
+abstract class BaseActivity : DaggerAppCompatActivity(){
 
     val activity: Activity
         get() = this

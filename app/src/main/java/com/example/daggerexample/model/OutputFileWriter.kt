@@ -7,22 +7,18 @@ import android.content.SharedPreferences
 import javax.inject.Inject
 
 
-public class OutputFileWriter  constructor( var context: Context){
-
-    var sharedPreferences: SharedPreferences
-
-   init {
-        this.context = context
-        sharedPreferences = context.getSharedPreferences("outputFile", MODE_PRIVATE)
-
-    }
+public class OutputFileWriter @Inject constructor(){
 
 
-    fun getOutputFile(): String {
+
+
+
+
+    fun getOutputFile(sharedPreferences:SharedPreferences): String {
         return sharedPreferences.getString("output", "")!!
     }
 
-    fun setOutPutFile(outPutFile: String) {
+    fun setOutPutFile(outPutFile: String,sharedPreferences: SharedPreferences) {
         sharedPreferences.edit().putString("output", outPutFile).apply()
     }
 }

@@ -2,6 +2,7 @@ package com.example.daggerexample.model
 
 
 import android.content.Context
+import android.content.SharedPreferences
 import android.os.Environment
 
 import android.util.Log
@@ -9,18 +10,7 @@ import java.io.*
 import javax.inject.Inject
 
 
-public class InputOutputFileOperation  constructor(context: Context) {
-   var context: Context
-
-    var  outputFileWriter: OutputFileWriter
-    init {
-       this.context =context
-        outputFileWriter=OutputFileWriter(context)
-    }
-
-
-
-
+public class InputOutputFileOperation @Inject constructor() {
 
     private val inputFile = "res/raw/input"
 
@@ -36,8 +26,8 @@ public class InputOutputFileOperation  constructor(context: Context) {
         return allText!!
     }
 
-    fun writeOutputFromFile(message: String) {
-        outputFileWriter?.setOutPutFile(message)
+    fun writeOutputFromFile(message: String,outputFileWriter:OutputFileWriter,sharedPreferences: SharedPreferences) {
+        outputFileWriter?.setOutPutFile(message,sharedPreferences =sharedPreferences )
 
         try {
            var fileName: String? =Environment.getDataDirectory().absolutePath+ File.separator+"output.txt"

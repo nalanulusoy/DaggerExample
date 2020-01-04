@@ -5,15 +5,14 @@ import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
 import java.util.regex.Pattern
+import javax.inject.Inject
 
 
-class InputParseOperation constructor(context: Context){
-   var context: Context
-    init {
-       this.context=context
-    }
+public class InputParseOperation @Inject constructor(){
+
+    @Inject
+    lateinit var hero:Hero
     fun getHero(input: String): Hero {
-        val hero = Hero(context)
         hero.healthPower = getHealthPower("Hero", input)
         hero.attackPoints = getAttackPoints("Hero", input)
         return hero

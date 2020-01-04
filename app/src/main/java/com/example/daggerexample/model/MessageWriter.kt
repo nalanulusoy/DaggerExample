@@ -2,21 +2,15 @@ package com.example.daggerexample.model
 
 
 import android.content.Context
+import android.content.SharedPreferences
+import javax.inject.Inject
 
 
-
-public class MessageWriter constructor(context : Context) {
-   var inputOutputFileOperation: InputOutputFileOperation
-  var  context : Context
-    init {
-        this.context=context
-        inputOutputFileOperation=InputOutputFileOperation(context)
-    }
+public class MessageWriter @Inject constructor() {
 
 
-
-    fun writeMessage(message: String) {
-        inputOutputFileOperation?.writeOutputFromFile(message)
+    fun writeMessage(message: String,outputFileWriter:OutputFileWriter,inputOutputFileOperation: InputOutputFileOperation,sharedPreferences: SharedPreferences) {
+        inputOutputFileOperation?.writeOutputFromFile(message,outputFileWriter =outputFileWriter,sharedPreferences = sharedPreferences)
     }
 
 }

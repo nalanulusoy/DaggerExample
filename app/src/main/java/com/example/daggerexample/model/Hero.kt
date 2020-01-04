@@ -1,18 +1,14 @@
 package com.example.daggerexample.model
 
-import android.content.Context
+import android.content.SharedPreferences
+import javax.inject.Inject
 
 
-public class Hero  constructor(context: Context) : LivingProperties(), IAttack {
+public class Hero @Inject constructor() : LivingProperties(), IAttack {
 
-     var writer: MessageWriter
     var isAlive = true
-     init {
-         writer= MessageWriter(context =context )
-     }
-
     private val output = StringBuilder()
-    fun start(positions: List<Position>) {
+    fun start(positions: List<Position>,writer: MessageWriter,inputOutputFileOperation: InputOutputFileOperation,outputFileWriter: OutputFileWriter,sharedPreferences: SharedPreferences) {
         output.append("Hero started journey with $healthPower HP! \n")
         for (position in positions) {
             if (isAlive) {
@@ -21,7 +17,7 @@ public class Hero  constructor(context: Context) : LivingProperties(), IAttack {
         }
         if (healthPower > 0)
             output.append("Hero survived!")
-        writer!!.writeMessage(output.toString())
+        writer!!.writeMessage(output.toString(),outputFileWriter =outputFileWriter ,inputOutputFileOperation = inputOutputFileOperation,sharedPreferences = sharedPreferences)
 
     }
 
